@@ -4,7 +4,76 @@
 </head>
 <body>
 <script>
-console.write("Hello World");
+class Vec3
+{
+	//document.write("afdas");
+	constrctor(x,y,z)
+	{
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+}
+
+	Vec3.prototype.min = function()
+	{
+		var a;
+		if(x<y)
+			a = x;
+		else
+			a = y;
+
+		if(z<a)
+			a = z;
+		else
+			;
+		return a;
+		
+
+	}
+
+	Vec3.prototype.mid = function()
+	{
+		var array = [x,y,z];
+		array.sort();
+
+		return array[1];
+
+	}
+
+	Vec3.prototype.max = function()
+	{
+		var a;
+		if(x>y)
+			a = x;
+		else
+			a = y;
+
+		if(z>a)
+			a = z;
+		else
+			;
+		return a;
+		
+
+	}
+
+
+	
+	var x=5,y=4,z=8;
+	var v = new Vec3(x,y,z);
+	var min = v.min();
+	var mid = v.mid();
+	var max = v.max();
+
+    document.write("min = "+ min);
+    document.write("<br>\n");
+    document.write("mid = "+ mid);
+    document.write("<br>\n");
+    document.write("max = "+ max);
+
+
+
 </script>
 </body>
 </html>

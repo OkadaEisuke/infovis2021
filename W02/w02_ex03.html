@@ -3,8 +3,189 @@
 <title>W02:Example 03</title>
 </head>
 <body>
+	<p>x0 =  <span id = "span1"></span></p>
+<input type = "number" id = "number1" value = "" />
+<input type = "button" value = "ボタン1" onclick = "clickBtn1()" />
+
+<p>y0 =  <span id = "span2"></span></p>
+<input type = "number" id = "number2" value = "" />
+<input type = "button" value = "ボタン2" onclick = "clickBtn2()" />
+
+<p>z0 =  <span id = "span3"></span></p>
+<input type = "number" id = "number3" value = "" />
+<input type = "button" value = "ボタン3" onclick = "clickBtn3()" />
+
+<p>x1 =  <span id = "span4"></span></p>
+<input type = "number" id = "number4" value = "" />
+<input type = "button" value = "ボタン4" onclick = "clickBtn4()" />
+
+<p>y1 =  <span id = "span5"></span></p>
+<input type = "number" id = "number5" value = "" />
+<input type = "button" value = "ボタン5" onclick = "clickBtn5()" />
+
+<p>z1 =  <span id = "span6"></span></p>
+<input type = "number" id = "number6" value = "" />
+<input type = "button" value = "ボタン6" onclick = "clickBtn6()" />
+
+<p>x2 =  <span id = "span7"></span></p>
+<input type = "number" id = "number7" value = "" />
+<input type = "button" value = "ボタン7" onclick = "clickBtn7()" />
+
+<p>y2 =  <span id = "span8"></span></p>
+<input type = "number" id = "number8" value = "" />
+<input type = "button" value = "ボタン8" onclick = "clickBtn8()" />
+
+<p>z2 =  <span id = "span9"></span></p>
+<input type = "number" id = "number9" value = "" />
+<input type = "button" value = "ボタン9" onclick = "clickBtn9()" />
+
+<p> <span id = "span10"></span></p>
+
+
+
 <script>
-window.alert("Hello World");
+class Vec3
+{
+	constrctor(x,y,z){
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+
+	get getx(){
+		return this.x;
+	}
+
+	set setx(x){
+		this.x = x;
+	}
+
+	get gety(){
+		return this.y;
+	}
+
+	set sety(y){
+		this.y = y;
+	}
+
+	get getz(){
+		return this.z;
+	}
+
+	set setz(z){
+		this.z = z;
+	}
+
+
+
+
+}
+
+function triangle(v0,v1,v2)
+{
+	var a_vector,b_vector;
+
+	a_vector = new Vec3((v1.getx()-v0.getx()),(v1.gety()-v0.gety()),(v1.getz()-v0.getz()));
+	b_vector = new Vec3((v2.getx()-v0.getx()),(v2.gety()-v0.gety()),(v2.getz()-v0.getz()));
+
+	//var d = a_vector.x;
+
+	var a = Math.pow(((a_vector.gety()*b_vector.getz())-(a_vector.getz()*b_vector.gety())),2);
+	var b = Math.pow(((a_vector.getz()*b_vector.getx())-(a_vector.getx()*b_vector.getz())),2);
+    var c = Math.pow(((a_vector.getx()*b_vector.gety())-(a_vector.gety()*b_vector.getx())),2);
+
+    var S = (0.5)*Math.pow((a+b+c),0.5);
+
+    return S;
+
+}
+	var x0,y0,z0;
+	var x1,y1,z1;
+	var x2,y2,z2;
+
+
+	function clickBtn1(){
+		const number1 = document.getElementById("number1");
+		const result1 = number1.value;
+		document.getElementById("span1").textContent = result1;
+		x0 = result1;
+	}	
+
+	function clickBtn2(){
+		const number1 = document.getElementById("number2");
+		const result1 = number1.value;
+		document.getElementById("span2").textContent = result1;
+		y0 = result1;
+	}	
+
+	function clickBtn3(){
+		const number1 = document.getElementById("number3");
+		const result1 = number1.value;
+		document.getElementById("span3").textContent = result1;
+		z0 = result1;
+	}	
+
+	function clickBtn4(){
+		const number1 = document.getElementById("number4");
+		const result1 = number1.value;
+		document.getElementById("span4").textContent = result1;
+		x1 = result1;
+	}	
+
+	function clickBtn5(){
+		const number1 = document.getElementById("number5");
+		const result1 = number1.value;
+		document.getElementById("span5").textContent = result1;
+		y1 = result1;
+	}	
+
+	function clickBtn6(){
+		const number1 = document.getElementById("number6");
+		const result1 = number1.value;
+		document.getElementById("span6").textContent = result1;
+		z1 = result1;
+	}	
+
+	function clickBtn7(){
+		const number1 = document.getElementById("number7");
+		const result1 = number1.value;
+		document.getElementById("span7").textContent = result1;
+		x2 = result1;
+	}	
+
+	function clickBtn8(){
+		const number1 = document.getElementById("number8");
+		const result1 = number1.value;
+		document.getElementById("span8").textContent = result1;
+		y2 = result1;
+
+
+	}	
+
+	function clickBtn9(){
+		const number1 = document.getElementById("number9");
+		const result1 = number1.value;
+		document.getElementById("span9").textContent = result1;
+		z2 = result1;
+		
+
+	var v0 = new Vec3(x0,y0,z0);
+	var v1 = new Vec3(x1,y1,z1);
+	var v2 = new Vec3(x2,y2,z2);
+	var s = triangle(v0,v1,v2);
+
+	const output = "面積は"+s+"です";
+
+	document.getElementById("span10").textContent = output;
+
+	}	
+
+
+	
+
+
+
+
 </script>
 </body>
 </html>
