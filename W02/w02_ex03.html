@@ -4,39 +4,39 @@
 </head>
 <body>
 	<p>x0 =  <span id = "span1"></span></p>
-<input type = "number" id = "number1" value = "" />
+<input type = "number" id = "number1" value = 0 />
 <input type = "button" value = "ボタン1" onclick = "clickBtn1()" />
 
 <p>y0 =  <span id = "span2"></span></p>
-<input type = "number" id = "number2" value = "" />
+<input type = "number" id = "number2" value = 0 />
 <input type = "button" value = "ボタン2" onclick = "clickBtn2()" />
 
 <p>z0 =  <span id = "span3"></span></p>
-<input type = "number" id = "number3" value = "" />
+<input type = "number" id = "number3" value = 0 />
 <input type = "button" value = "ボタン3" onclick = "clickBtn3()" />
 
 <p>x1 =  <span id = "span4"></span></p>
-<input type = "number" id = "number4" value = "" />
+<input type = "number" id = "number4" value = 0 />
 <input type = "button" value = "ボタン4" onclick = "clickBtn4()" />
 
 <p>y1 =  <span id = "span5"></span></p>
-<input type = "number" id = "number5" value = "" />
+<input type = "number" id = "number5" value = 0 />
 <input type = "button" value = "ボタン5" onclick = "clickBtn5()" />
 
 <p>z1 =  <span id = "span6"></span></p>
-<input type = "number" id = "number6" value = "" />
+<input type = "number" id = "number6" value = 0 />
 <input type = "button" value = "ボタン6" onclick = "clickBtn6()" />
 
 <p>x2 =  <span id = "span7"></span></p>
-<input type = "number" id = "number7" value = "" />
+<input type = "number" id = "number7" value = 0 />
 <input type = "button" value = "ボタン7" onclick = "clickBtn7()" />
 
 <p>y2 =  <span id = "span8"></span></p>
-<input type = "number" id = "number8" value = "" />
+<input type = "number" id = "number8" value = 0 />
 <input type = "button" value = "ボタン8" onclick = "clickBtn8()" />
 
 <p>z2 =  <span id = "span9"></span></p>
-<input type = "number" id = "number9" value = "" />
+<input type = "number" id = "number9" value = 0 />
 <input type = "button" value = "ボタン9" onclick = "clickBtn9()" />
 
 <p> <span id = "span10"></span></p>
@@ -46,35 +46,13 @@
 <script>
 class Vec3
 {
-	constrctor(x,y,z){
+	constructor(x,y,z){
 		this.x = x;
 		this.y = y;
 		this.z = z;
 	}
 
-	get getx(){
-		return this.x;
-	}
-
-	set setx(x){
-		this.x = x;
-	}
-
-	get gety(){
-		return this.y;
-	}
-
-	set sety(y){
-		this.y = y;
-	}
-
-	get getz(){
-		return this.z;
-	}
-
-	set setz(z){
-		this.z = z;
-	}
+	
 
 
 
@@ -85,14 +63,14 @@ function triangle(v0,v1,v2)
 {
 	var a_vector,b_vector;
 
-	a_vector = new Vec3((v1.getx()-v0.getx()),(v1.gety()-v0.gety()),(v1.getz()-v0.getz()));
-	b_vector = new Vec3((v2.getx()-v0.getx()),(v2.gety()-v0.gety()),(v2.getz()-v0.getz()));
+	a_vector = new Vec3( v1.x-v0.x, v1.y-v0.y, v1.z-v0.z);
+	b_vector = new Vec3( v2.x-v0.x, v2.y-v0.y, v2.z-v0.z);
 
 	//var d = a_vector.x;
 
-	var a = Math.pow(((a_vector.gety()*b_vector.getz())-(a_vector.getz()*b_vector.gety())),2);
-	var b = Math.pow(((a_vector.getz()*b_vector.getx())-(a_vector.getx()*b_vector.getz())),2);
-    var c = Math.pow(((a_vector.getx()*b_vector.gety())-(a_vector.gety()*b_vector.getx())),2);
+	var a = Math.pow(a_vector.y*b_vector.z-(a_vector.z*b_vector.y),2);
+	var b = Math.pow(a_vector.z*b_vector.x-(a_vector.x*b_vector.z),2);
+    var c = Math.pow(a_vector.x*b_vector.y-(a_vector.y*b_vector.x),2);
 
     var S = (0.5)*Math.pow((a+b+c),0.5);
 
@@ -173,6 +151,7 @@ function triangle(v0,v1,v2)
 	var v1 = new Vec3(x1,y1,z1);
 	var v2 = new Vec3(x2,y2,z2);
 	var s = triangle(v0,v1,v2);
+
 
 	const output = "面積は"+s+"です";
 
