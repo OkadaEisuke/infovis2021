@@ -23,7 +23,7 @@
 	    	.enter()
 	        .append("text")
 	        .text(function(d){ return d.t; })
-	        .attr("x", function(d){ return d.tx; })
+	        .attr("x", function(d){ return Number(d.tx); })
 	        .attr("y", function(d){ return d.ty; })
 	        
 	        .attr("font-family","sans-serif")
