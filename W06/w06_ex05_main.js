@@ -1,4 +1,4 @@
-d3.csv("https://okadaeisuke.github.io/infovis2021/W04/w04_task1.csv")
+d3.csv("https://vizlab-kobe-lecture.github.io/InfoVis2021/W04/data.csv")
     .then( data => {
         data.forEach( d => { d.x = +d.x; d.y = +d.y; });
 
@@ -6,7 +6,7 @@ d3.csv("https://okadaeisuke.github.io/infovis2021/W04/w04_task1.csv")
             parent: '#drawing_region',
             width: 256,
             height: 256,
-            margin: {top:50, right:10, bottom:20, left:50}
+            margin: {top:10, right:10, bottom:20, left:10}
         };
 
         const scatter_plot = new ScatterPlot( config, data );
@@ -23,7 +23,7 @@ class ScatterPlot {
             parent: config.parent,
             width: config.width || 256,
             height: config.height || 256,
-            margin: config.margin || {top:30, right:10, bottom:10, left:10}
+            margin: config.margin || {top:10, right:10, bottom:10, left:10}
         }
         this.data = data;
         this.init();
@@ -43,55 +43,16 @@ class ScatterPlot {
         self.inner_height = self.config.height - self.config.margin.top - self.config.margin.bottom;
 
         self.xscale = d3.scaleLinear()
-            //.domain([d3.min(data, d=>d.x),d3.max(data,d =>d.x)])
             .range( [0, self.inner_width] );
 
         self.yscale = d3.scaleLinear()
-            //.domain([d3.min(data, d=>d.x),d3.max(data,d =>d.x)])
-            .range( [ self.inner_height,0] );
+            .range( [0, self.inner_height] );
 
         self.xaxis = d3.axisBottom( self.xscale )
-            //.tickValues( data_set.filter( function(d,i){ return !(i % 2); }));
             .ticks(6);
-            
 
         self.xaxis_group = self.chart.append('g')
-            .attr('transform', `translate(0, ${self.inner_height})`)
-
-        self.xaxis_group.append("text")
-            .text("Xlabel")
-            .attr("x",self.inner_width/2)
-            .attr("y",50)
-            .attr("font-family","sans-serif")
-            .attr("font-size","10pt")
-            .attr("fill","black");
-
-
-        self.xaxis_group.append("text")
-            .text("title")
-            .attr("x",self.inner_width/2)
-            .attr("y",-200)
-            .attr("font-family","sans-serif")
-            .attr("font-size","20pt")
-            .attr("fill","black");
-
-
-            
-        self.yaxis = d3.axisLeft( self.yscale )
-            .ticks(6);
-            //.attr("transform","rotate(180,20,50)");
-
-        self.yaxis_group = self.chart.append('g')
-            .attr('transform', `translate(0,0)`);
-            //.attr('transform', "rotate(10)");   
-
-        self.yaxis_group.append("text")
-            .text("Ylabel")
-            .attr("x",-10)
-            .attr("y",self.inner_height/2)
-            .attr("font-family","sans-serif")
-            .attr("font-size","10pt")
-            .attr("fill","black");
+            .attr('transform', `translate(0, ${self.inner_height})`);
     }
 
     update() {
@@ -99,14 +60,13 @@ class ScatterPlot {
 
         const xmin = d3.min( self.data, d => d.x );
         const xmax = d3.max( self.data, d => d.x );
-        self.xscale.domain( [0, xmax] );
+        self.xscale.domain( [xmin, xmax] );
 
         const ymin = d3.min( self.data, d => d.y );
         const ymax = d3.max( self.data, d => d.y );
-        self.yscale.domain( [0, ymax] );
+        self.yscale.domain( [ymin, ymax] );
 
         self.render();
-        //self.xlabel();
     }
 
     render() {
@@ -118,17 +78,9 @@ class ScatterPlot {
             .append("circle")
             .attr("cx", d => self.xscale( d.x ) )
             .attr("cy", d => self.yscale( d.y ) )
-            .attr("r", d => d.r )
-            .attr("fill",d => d.c);
+            .attr("r", d => d.r );
 
         self.xaxis_group
             .call( self.xaxis );
-
-        self.yaxis_group
-            .call( self.yaxis ); 
-
-
     }
-
-    
 }
