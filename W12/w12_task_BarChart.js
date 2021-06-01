@@ -32,6 +32,7 @@ class BarChart {
             .paddingOuter(0.1);
 
         self.yscale = d3.scaleLinear()
+            .domain([0,5000])
             .range([self.inner_height, 0]);
 
         self.xaxis = d3.axisBottom(self.xscale)
@@ -62,13 +63,14 @@ class BarChart {
             .attr('x', -(self.config.height / 2))
             .attr('text-anchor', 'middle')
             .attr('dy', '1em')
+            .attr('writing-mode', 'tb')
             .text( self.config.ylabel );
     }
 
     update() {
         let self = this;
 
-        const data_map = d3.rollup( self.data, v => v.length, d => d.species );
+        const data_map = d3.rollup( self.data, v => v.length, d => d.day );
         self.aggregated_data = Array.from( data_map, ([key,count]) => ({key,count}) );
 
         self.cvalue = d => d.key;

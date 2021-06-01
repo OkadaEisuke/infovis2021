@@ -16,7 +16,7 @@ d3.csv("https://okadaeisuke.github.io/infovis2021/W12/pcr_positive_daily.csv")
 
         scatter_plot = new ScatterPlot( {
             parent: '#drawing_region_scatterplot',
-            width: 256,
+            width: 1024,
             height: 256,
             margin: {top:10, right:10, bottom:50, left:50},
             xlabel: 'Sepal length [cm]',
@@ -27,10 +27,10 @@ d3.csv("https://okadaeisuke.github.io/infovis2021/W12/pcr_positive_daily.csv")
 
         bar_chart = new BarChart( {
             parent: '#drawing_region_barchart',
-            width: 256,
-            height: 256,
+            width: 1024,
+            height: 1024,
             margin: {top:10, right:10, bottom:50, left:50},
-            xlabel: 'Species',
+            xlabel: 'Day',
             cscale: color_scale
         }, input_data );
         bar_chart.update();
