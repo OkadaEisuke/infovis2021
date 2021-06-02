@@ -1,4 +1,4 @@
-class BarChart {
+class BarChart1 {
     constructor (config, data) {
         this.config = {
             parent: config.parent,
@@ -27,13 +27,13 @@ class BarChart {
         self.inner_height = self.config.height - self.config.margin.top - self.config.margin.bottom;
 
         self.xscale = d3.scaleBand()
-            .domain(self.data.map(d => d.day))
+            .domain(self.data.map(d1 => d1.day))
             .range([0, self.inner_width])
             .paddingInner(0.5)
             .paddingOuter(0.1);
 
         self.yscale = d3.scaleLinear()
-            .domain([0, d3.max(self.data, d => d.number)])
+            .domain([0, d3.max(self.data, d1=> d1.adult)])
             // .domain([0,7000])
             .range([self.inner_height,0]);
 
@@ -107,12 +107,12 @@ class BarChart {
             // .attr("x", d => self.xscale( self.xvalue(d) ) )
             .enter()
             .append("rect")
-            .attr("x", d => self.xscale(d.day))
-            .attr("y", d => self.yscale(d.number))
+            .attr("x", d1 => self.xscale(d1.day))
+            .attr("y", d1 => self.yscale(d1.adult))
             // .attr("y",0)
             .attr("width", self.xscale.bandwidth())
             // .attr("height", d => self.inner_height - self.yscale( self.yvalue(d) ))
-            .attr("height",d => self.inner_height-self.yscale(d.number))
+            .attr("height",d1 => self.inner_height-self.yscale(d1.adult))
             // .attr("fill", d => self.config.cscale( self.cvalue(d) ))
             .attr("fill","black")
             // .on('click', function(ev,d) {
