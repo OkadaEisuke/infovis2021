@@ -31,6 +31,10 @@ class BarChart1 {
             .x(d1 => self.xscale(d1.day))
             .y(d1 => self.yscale(d1.adult))
 
+        self.line1 = d3.line()
+            .x(d1 => self.xscale(d1.day))
+            .y(d1 => self.yscale1(d1.company))
+
         self.xscale = d3.scaleBand()
             .domain(self.data.map(d1 => d1.day))
             .range([0, self.inner_width])
@@ -42,6 +46,16 @@ class BarChart1 {
             // .domain([0,7000])
             .range([self.inner_height,0]);
 
+        console.log(d3.max(self.data, d1=> d1.adult))
+        console.log(d3.max(self.data, d1=> d1.company))
+
+
+        self.yscale1 = d3.scaleLinear()
+            .domain([0, d3.max(self.data, d1=> d1.company)])
+            // .domain([0,7000])
+            .range([self.inner_height,0]);
+
+
         self.xaxis = d3.axisBottom(self.xscale)
             // .ticks()
             .tickSizeOuter(0);
@@ -50,10 +64,19 @@ class BarChart1 {
             // .ticks(5)
             .tickSizeOuter(0);
 
+        self.yaxis1 = d3.axisRight(self.yscale1)
+
+            // .ticks(5)
+            .tickSizeOuter(0);
+
+
         self.xaxis_group = self.chart.append('g')
             .attr('transform', `translate(0, ${self.inner_height})`);
 
         self.yaxis_group = self.chart.append('g');
+
+        self.yaxis_group1 = self.chart.append('g')
+        .attr('transform',`translate( ${self.inner_width},0)`)
 
         const xlabel_space = 40;
         self.svg.append('text')
@@ -78,23 +101,7 @@ class BarChart1 {
 
     update() {
         let self = this;
-        self.dataset = d3.rollup(self.data, ([v]) => v.adult, d => d.station)
-        self.aggregated_data = Array.from( self.dataset, ([key,value]) => ({key,value}) );
-
-
-        // const data_map = d3.rollup( self.data, v => v.length, d1 => d1.station );
-        // self.aggregated_data = Array.from( data_map, ([key,count]) => ({key,count}) );
-
-
-        // self.cvalue = d1 => d1.station;
-        // self.xvalue = d1 => d1.key;
-        // self.yvalue = d1 => d1.count;
-
-        // const items = self.aggregated_data.map( self.xvalue );
-        // self.xscale.domain(items);
-
-        // const ymin = 0;
-        // const ymax = d3.max( self.aggregated_data, self.yvalue );
+        
         // self.yscale.domain([ymin, ymax]);
         // self.yscale.domain([0, d3.max(self.data, d1 => d.number)])
 
@@ -111,9 +118,14 @@ class BarChart1 {
 
         self.chart.append("path")
             .attr('d',self.line(self.data))
-            .attr('stroke','red')
+            .attr('stroke','blue')
             .attr('fill','none')
             
+        self.chart.append("path")
+            .attr('d',self.line1(self.data))
+            .attr('stroke','red')
+            .attr('fill','none')
+         // console.log(self.data)   
         
             
             // .on('click', function(ev,d) {
@@ -139,5 +151,8 @@ class BarChart1 {
 
         self.yaxis_group
             .call(self.yaxis);
+
+        self.yaxis_group1
+            .call(self.yaxis1);
     }
 }

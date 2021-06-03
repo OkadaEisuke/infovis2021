@@ -19,6 +19,10 @@ d3.csv("https://okadaeisuke.github.io/infovis2021/W12/pcr_positive_daily.csv")
             input_data1 = data;
             input_data1.forEach(d1 =>{
                 d1.adult = +d1.adult;
+                d1.company = +d1.company;
+                d1.school = +d1.school;
+                d1.children = +d1.children;
+
             });
         
 
@@ -52,7 +56,7 @@ d3.csv("https://okadaeisuke.github.io/infovis2021/W12/pcr_positive_daily.csv")
             parent: '#drawing_region_barchart1',
             width: 700,
             height: 300,
-            margin: {top:10, right:10, bottom:100, left:60},
+            margin: {top:10, right:50, bottom:100, left:60},
             xlabel: 'Day',
             ylabel: '乗降者数[人]',
             cscale: color_scale
