@@ -4,6 +4,8 @@ let bar_chart;
 let bar_chart1;
 let filter = [];
 
+
+
 d3.csv("https://okadaeisuke.github.io/infovis2021/W12/pcr_positive_daily.csv")
     .then( data => {
         input_data = data;
@@ -12,7 +14,7 @@ d3.csv("https://okadaeisuke.github.io/infovis2021/W12/pcr_positive_daily.csv")
             // d.sepal_width = +d.sepal_width;
         });
 
-        d3.csv("https://okadaeisuke.github.io/infovis2021/W12/pcr_positive_daily.csv")
+        d3.csv("https://okadaeisuke.github.io/infovis2021/W12/subwaydata.csv")
         .then( data =>{
             input_data1 = data;
             input_data1.forEach(d1 =>{
@@ -22,7 +24,7 @@ d3.csv("https://okadaeisuke.github.io/infovis2021/W12/pcr_positive_daily.csv")
 
 
         const color_scale = d3.scaleOrdinal( d3.schemeCategory10 );
-        // color_scale.domain(['setosa','versicolor','virginica']);
+        color_scale.domain(['三宮','西神中央']);
 
         scatter_plot = new ScatterPlot( {
             parent: '#drawing_region_scatterplot',
@@ -37,9 +39,9 @@ d3.csv("https://okadaeisuke.github.io/infovis2021/W12/pcr_positive_daily.csv")
 
         bar_chart = new BarChart( {
             parent: '#drawing_region_barchart',
-            width: 300,
+            width: 700,
             height: 300,
-            margin: {top:10, right:10, bottom:100, left:50},
+            margin: {top:10, right:10, bottom:100, left:60},
             xlabel: 'Day',
             ylabel: '陽性者数[人]',
             cscale: color_scale
@@ -48,11 +50,11 @@ d3.csv("https://okadaeisuke.github.io/infovis2021/W12/pcr_positive_daily.csv")
 
         bar_chart1 = new BarChart1( {
             parent: '#drawing_region_barchart1',
-            width: 300,
+            width: 700,
             height: 300,
-            margin: {top:10, right:10, bottom:100, left:50},
+            margin: {top:10, right:10, bottom:100, left:60},
             xlabel: 'Day',
-            ylabel: '陽性者数[人]',
+            ylabel: '乗降者数[人]',
             cscale: color_scale
         }, input_data1 );
         bar_chart1.update();

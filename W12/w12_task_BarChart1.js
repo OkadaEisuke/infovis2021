@@ -26,6 +26,11 @@ class BarChart1 {
         self.inner_width = self.config.width - self.config.margin.left - self.config.margin.right;
         self.inner_height = self.config.height - self.config.margin.top - self.config.margin.bottom;
 
+
+        self.line = d3.line()
+            .x(d1 => self.xscale(d1.day))
+            .y(d1 => self.yscale(d1.adult))
+
         self.xscale = d3.scaleBand()
             .domain(self.data.map(d1 => d1.day))
             .range([0, self.inner_width])
@@ -59,13 +64,13 @@ class BarChart1 {
             // .attr('writing-mode', 'tb')
             .text( self.config.xlabel );
 
-        const ylabel_space = 50;
+        const ylabel_space = 60;
         self.svg.append('text')
             .style('font-size', '12px')
             .attr('transform', `rotate(-90)`)
             .attr('y', self.config.margin.left - ylabel_space)
             .attr('x', -(self.config.height / 2))
-            .attr('text-anchor', 'middle')
+            .attr('text-anchor', 'start')
             .attr('dy', '1em')
             // .attr('writing-mode', 'tb')
             .text( self.config.ylabel );
@@ -73,13 +78,17 @@ class BarChart1 {
 
     update() {
         let self = this;
+        self.dataset = d3.rollup(self.data, v => v, d => d.station)
+        console.log(self.data)
+        console.log(self.dataset)
 
-        // const data_map = d3.rollup( self.data, v => v.length, d => d.day );
+        // const data_map = d3.rollup( self.data, v => v.length, d1 => d1.station );
         // self.aggregated_data = Array.from( data_map, ([key,count]) => ({key,count}) );
 
-        // self.cvalue = d => d.key;
-        // self.xvalue = d => d.key;
-        // self.yvalue = d => d.count;
+
+        // self.cvalue = d1 => d1.station;
+        // self.xvalue = d1 => d1.key;
+        // self.yvalue = d1 => d1.count;
 
         // const items = self.aggregated_data.map( self.xvalue );
         // self.xscale.domain(items);
@@ -87,7 +96,7 @@ class BarChart1 {
         // const ymin = 0;
         // const ymax = d3.max( self.aggregated_data, self.yvalue );
         // self.yscale.domain([ymin, ymax]);
-        // self.yscale.domain([0, d3.max(self.data, d => d.number)])
+        // self.yscale.domain([0, d3.max(self.data, d1 => d.number)])
 
 
 
@@ -100,21 +109,13 @@ class BarChart1 {
     render() {
         let self = this;
 
-        self.chart.selectAll("rect")
-            .data(self.data)
-            // .join("rect")
-            // .attr("class", "bar")
-            // .attr("x", d => self.xscale( self.xvalue(d) ) )
-            .enter()
-            .append("rect")
-            .attr("x", d1 => self.xscale(d1.day))
-            .attr("y", d1 => self.yscale(d1.adult))
-            // .attr("y",0)
-            .attr("width", self.xscale.bandwidth())
-            // .attr("height", d => self.inner_height - self.yscale( self.yvalue(d) ))
-            .attr("height",d1 => self.inner_height-self.yscale(d1.adult))
-            // .attr("fill", d => self.config.cscale( self.cvalue(d) ))
-            .attr("fill","black")
+        self.chart.append("path")
+            .attr('d',self.line(self.data))
+            .attr('stroke','red')
+            .attr('fill','none')
+            
+        
+            
             // .on('click', function(ev,d) {
             //     const is_active = filter.includes(d.key);
             //     if ( is_active ) {

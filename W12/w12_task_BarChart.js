@@ -26,6 +26,8 @@ class BarChart {
         self.inner_width = self.config.width - self.config.margin.left - self.config.margin.right;
         self.inner_height = self.config.height - self.config.margin.top - self.config.margin.bottom;
 
+        
+        
         self.xscale = d3.scaleBand()
             .domain(self.data.map(d => d.day))
             .range([0, self.inner_width])
@@ -59,13 +61,13 @@ class BarChart {
             // .attr('writing-mode', 'tb')
             .text( self.config.xlabel );
 
-        const ylabel_space = 50;
+        const ylabel_space = 60;
         self.svg.append('text')
             .style('font-size', '12px')
             .attr('transform', `rotate(-90)`)
             .attr('y', self.config.margin.left - ylabel_space)
             .attr('x', -(self.config.height / 2))
-            .attr('text-anchor', 'middle')
+            .attr('text-anchor', 'start')
             .attr('dy', '1em')
             // .attr('writing-mode', 'tb')
             .text( self.config.ylabel );
