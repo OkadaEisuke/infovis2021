@@ -1,6 +1,6 @@
 class ScatterPlot {
 
-    constructor( config, data ) {
+    constructor( config, data ,data1) {
         this.config = {
             parent: config.parent,
             width: config.width || 256,
@@ -8,9 +8,11 @@ class ScatterPlot {
             margin: config.margin || {top:10, right:10, bottom:10, left:10},
             xlabel: config.xlabel || '',
             ylabel: config.ylabel || '',
+            title: config.title || '',
             cscale: config.cscale
         }
         this.data = data;
+        this.data1 = data1;
         this.init();
     }
 
@@ -28,10 +30,12 @@ class ScatterPlot {
         self.inner_height = self.config.height - self.config.margin.top - self.config.margin.bottom;
 
         self.xscale = d3.scaleLinear()
+            .domain([0, d3.max(self.data, d1=> d1.number)])
             .range( [0, self.inner_width] );
 
         self.yscale = d3.scaleLinear()
-            .range( [self.inner_height, 0] );
+            .domain([0, d3.max(self.data1, d1=> d1.adult)])
+            .range( [0,self.inner_height] );
 
         self.xaxis = d3.axisBottom( self.xscale )
             .ticks(3)
@@ -56,7 +60,7 @@ class ScatterPlot {
             .attr('text-anchor', 'middle')
             .text( self.config.xlabel );
 
-        const ylabel_space = 45;
+        const ylabel_space = 80;
         self.svg.append('text')
             .style('font-size', '12px')
             .attr('transform', `rotate(-90)`)
@@ -65,22 +69,54 @@ class ScatterPlot {
             .attr('text-anchor', 'middle')
             .attr('dy', '1em')
             .text( self.config.ylabel );
+
+        self.svg.append('text')
+            .style('font-size', '18px')
+            // .attr('transform', `rotate(-90)`)
+            .attr('x', self.config.width / 2 - self.config.margin.right-50)
+            .attr('y', self.config.margin.top/2)
+            // .attr('writing-mode', 'tb')
+            .text( self.config.title );
+
+
     }
 
     update() {
         let self = this;
 
-        self.cvalue = d => d.species;
-        self.xvalue = d => d.sepal_length;
-        self.yvalue = d => d.sepal_width;
+        self.cvalue = d => d.day;
+        self.xvalue = d => d.number;
+        self.yvalue = d => d.adult;
 
         const xmin = d3.min( self.data, self.xvalue );
         const xmax = d3.max( self.data, self.xvalue );
         self.xscale.domain( [xmin, xmax] );
 
-        const ymin = d3.min( self.data, self.yvalue );
-        const ymax = d3.max( self.data, self.yvalue );
+        const ymin = d3.min( self.data1, self.yvalue );
+        const ymax = d3.max( self.data1, self.yvalue );
         self.yscale.domain( [ymax, ymin] );
+
+        self.color = "blue";
+
+        self.render();
+    }
+
+    update1() {
+        let self = this;
+
+        self.cvalue = d => d.day;
+        self.xvalue = d => d.number;
+        self.yvalue = d => d.company;
+
+        const xmin = d3.min( self.data, self.xvalue );
+        const xmax = d3.max( self.data, self.xvalue );
+        self.xscale.domain( [xmin, xmax] );
+
+        const ymin = d3.min( self.data1, self.yvalue );
+        const ymax = d3.max( self.data1, self.yvalue );
+        self.yscale.domain( [ymax, ymin] );
+
+        self.color = "red";
 
         self.render();
     }
@@ -97,14 +133,14 @@ class ScatterPlot {
         circles
             .attr("r", circle_radius )
             .attr("cx", d => self.xscale( self.xvalue(d) ) )
+            .data(self.data1)
             .attr("cy", d => self.yscale( self.yvalue(d) ) )
-            .attr("fill", d => self.config.cscale( self.cvalue(d) ) );
-
-        circles
+            .attr("fill", self.color)
             .on('mouseover', (e,d) => {
                 d3.select('#tooltip')
                     .style('opacity', 1)
-                    .html(`<div class="tooltip-label">${d.species}</div>(${d.sepal_length}, ${d.sepal_length})`);
+
+                    .html(`<div class="tooltip-label">${d.day}</div>`);
             })
             .on('mousemove', (e) => {
                 const padding = 10;
@@ -117,10 +153,14 @@ class ScatterPlot {
                     .style('opacity', 0);
             });
 
+         
+
         self.xaxis_group
             .call( self.xaxis );
 
         self.yaxis_group
             .call( self.yaxis );
     }
+
+    
 }

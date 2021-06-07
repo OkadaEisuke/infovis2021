@@ -7,6 +7,7 @@ class BarChart {
             margin: config.margin || {top:10, right:10, bottom:10, left:10},
             xlabel: config.xlabel || '',
             ylabel: config.ylabel || '',
+            title: config.title || '',
             cscale: config.cscale
         };
         this.data = data;
@@ -26,8 +27,8 @@ class BarChart {
         self.inner_width = self.config.width - self.config.margin.left - self.config.margin.right;
         self.inner_height = self.config.height - self.config.margin.top - self.config.margin.bottom;
 
-        
-        
+
+
         self.xscale = d3.scaleBand()
             .domain(self.data.map(d => d.day))
             .range([0, self.inner_width])
@@ -71,6 +72,15 @@ class BarChart {
             .attr('dy', '1em')
             // .attr('writing-mode', 'tb')
             .text( self.config.ylabel );
+
+        
+        self.svg.append('text')
+            .style('font-size', '18px')
+            // .attr('transform', `rotate(-90)`)
+            .attr('x', self.config.width / 2-self.config.margin.right-50)
+            .attr('y', self.config.margin.top/2)
+            // .attr('writing-mode', 'tb')
+            .text( self.config.title );
     }
 
     update() {

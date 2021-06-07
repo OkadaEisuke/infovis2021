@@ -34,20 +34,22 @@ d3.csv("https://okadaeisuke.github.io/infovis2021/W12/pcr_positive_daily.csv")
             parent: '#drawing_region_scatterplot',
             width: 300,
             height: 300,
-            margin: {top:10, right:10, bottom:100, left:50},
-            xlabel: 'Sepal length [cm]',
-            ylabel: 'Sepal width [cm]',
+            margin: {top:40, right:10, bottom:100, left:80},
+            xlabel: '陽性者数[人]',
+            ylabel: '乗降者数[人]',
+            title: '陽性者と乗降者の散布図',
             cscale: color_scale
-        }, input_data );
+        }, input_data,input_data1 );
         scatter_plot.update();
 
         bar_chart = new BarChart( {
             parent: '#drawing_region_barchart',
             width: 700,
             height: 300,
-            margin: {top:10, right:10, bottom:100, left:60},
+            margin: {top:40, right:50, bottom:100, left:60},
             xlabel: 'Day',
             ylabel: '陽性者数[人]',
+            title:'神戸市のコロナ陽性者数',
             cscale: color_scale
         }, input_data );
         bar_chart.update();
@@ -56,12 +58,23 @@ d3.csv("https://okadaeisuke.github.io/infovis2021/W12/pcr_positive_daily.csv")
             parent: '#drawing_region_barchart1',
             width: 700,
             height: 300,
-            margin: {top:10, right:50, bottom:100, left:60},
+            margin: {top:30, right:50, bottom:100, left:60},
             xlabel: 'Day',
             ylabel: '乗降者数[人]',
+            title: '神戸市営地下鉄三宮駅の乗降者数',
             cscale: color_scale
         }, input_data1 );
         bar_chart1.update();
+
+        d3.select('#adultpeople')
+            .on('click', d => {
+            scatter_plot.update();
+            });
+
+        d3.select('#commuter')
+            .on('click', d => {
+            scatter_plot.update1();
+            });
 
 
 

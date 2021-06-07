@@ -7,6 +7,7 @@ class BarChart1 {
             margin: config.margin || {top:10, right:10, bottom:10, left:10},
             xlabel: config.xlabel || '',
             ylabel: config.ylabel || '',
+            title: config.title || '',
             cscale: config.cscale
         };
         this.data = data;
@@ -46,8 +47,7 @@ class BarChart1 {
             // .domain([0,7000])
             .range([self.inner_height,0]);
 
-        console.log(d3.max(self.data, d1=> d1.adult))
-        console.log(d3.max(self.data, d1=> d1.company))
+       
 
 
         self.yscale1 = d3.scaleLinear()
@@ -97,6 +97,14 @@ class BarChart1 {
             .attr('dy', '1em')
             // .attr('writing-mode', 'tb')
             .text( self.config.ylabel );
+
+        self.svg.append('text')
+            .style('font-size', '18px')
+            // .attr('transform', `rotate(-90)`)
+            .attr('x', self.config.width / 2 - self.config.margin.right-50)
+            .attr('y', self.config.margin.top/2)
+            // .attr('writing-mode', 'tb')
+            .text( self.config.title );
     }
 
     update() {
@@ -125,20 +133,18 @@ class BarChart1 {
             .attr('d',self.line1(self.data))
             .attr('stroke','red')
             .attr('fill','none')
-         // console.log(self.data)   
-        
-            
-            // .on('click', function(ev,d) {
-            //     const is_active = filter.includes(d.key);
-            //     if ( is_active ) {
-            //         filter = filter.filter( f => f !== d.key );
-            //     }
-            //     else {
-            //         filter.push( d.key );
-            //     }
-            //     Filter();
-            //     d3.select(this).classed('active', !is_active);
-            // });
+         
+            .on('click', function(ev,d) {
+                const is_active = filter.includes(d.company);
+                if ( is_active ) {
+                    filter = filter.filter( f => f !== d.company );
+                }
+                else {
+                    filter.push( d.company );
+                }
+                Filter();
+                d3.select(this).classed('active', !is_active);
+            });
 
         
 
